@@ -49,12 +49,17 @@ in the main repo.
 
 ## Release
 
-1. Bump `version` in `plugin.json` (and `frontend/package.json` to match).
-2. `cd frontend && npm run build`
-3. `./scripts/build-zip.sh`
-4. Attach the zip to a GitHub release, then update `index.json` in
-   [serverkit-extensions](https://github.com/jhd3197/serverkit-extensions)
-   with the new version, download URL and sha256.
+Fully automated — no manual zips:
+
+1. Bump `version` in `plugin.json` and push to `main` (or push a `vX.Y.Z` tag).
+2. The **Create Release** workflow builds the bundle, zips it, creates the
+   GitHub release with the zip attached, then downloads the published asset
+   and upserts this extension's entry (version, URL, sha256) in
+   [serverkit-extensions](https://github.com/jhd3197/serverkit-extensions).
+
+One-time setup: add a `REGISTRY_TOKEN` secret (fine-grained PAT with
+contents:write on `serverkit-extensions`) so the registry sync can push.
+Without it the release still ships; only the registry update skips.
 
 ## License
 
