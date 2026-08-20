@@ -1,0 +1,23 @@
+{
+    "gpu": {
+        "gpuMonitor": {
+            "container": "Contenedor",
+            "driver": "Controlador",
+            "failedToLoadGpuInfo": "No se pudo cargar la información de la GPU",
+            "fan": "Ventilador",
+            "gpuMonitor": "Monitor de GPU",
+            "gpuProcesses": "Procesos de GPU",
+            "gpuUtilization": "Uso de la GPU",
+            "loadingGpuData": "Cargando los datos de la GPU",
+            "noActiveGpuProcesses": "No hay procesos de GPU activos",
+            "noNvidiaGpuDetected": "No se detectó ninguna GPU NVIDIA",
+            "power": "Potencia",
+            "process": "Proceso",
+            "temp": "Temp.",
+            "thisHostHasNoNvidiaGpu": "Este host no tiene GPU NVIDIA, o los controladores NVIDIA / nvidia-smi no están disponibles."
+        },
+        "primitives": {
+            "loading": "Cargando"
+        }
+    }
+}
