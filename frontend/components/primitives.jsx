@@ -4,6 +4,7 @@
 // emit, so the page looks identical without importing host internals — which a
 // runtime-ESM bundle cannot do.
 import { Inbox } from 'lucide-react';
+import { useTranslation } from 'serverkit-sdk';
 
 // Mirrors frontend/src/components/ui/button.jsx's variant/size -> class map.
 const VARIANT_CLASSES = {
@@ -53,13 +54,14 @@ export function EmptyState({
     size = 'default',
     loading = false,
 }) {
+    const { t } = useTranslation();
     if (loading) {
         return (
             <div
                 className={`empty-state empty-state--${size} empty-state--loading`}
                 role="status"
                 aria-busy="true"
-                aria-label={title || 'Loading'}
+                aria-label={title || t('gpu.primitives.loading', 'Loading')}
             >
                 <div className="skeleton-panel">
                     <div className="skeleton-panel__head">

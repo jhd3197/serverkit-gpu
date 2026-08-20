@@ -1,0 +1,23 @@
+{
+    "gpu": {
+        "gpuMonitor": {
+            "container": "Container",
+            "driver": "Driver",
+            "failedToLoadGpuInfo": "Failed to load GPU info",
+            "fan": "Fan",
+            "gpuMonitor": "GPU Monitor",
+            "gpuProcesses": "GPU Processes",
+            "gpuUtilization": "GPU Utilization",
+            "loadingGpuData": "Loading GPU data",
+            "noActiveGpuProcesses": "No active GPU processes",
+            "noNvidiaGpuDetected": "No NVIDIA GPU detected",
+            "power": "Power",
+            "process": "Process",
+            "temp": "Temp",
+            "thisHostHasNoNvidiaGpu": "This host has no NVIDIA GPU, or the NVIDIA drivers / nvidia-smi are not available."
+        },
+        "primitives": {
+            "loading": "Loading"
+        }
+    }
+}

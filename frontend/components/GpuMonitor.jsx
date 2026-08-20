@@ -6,6 +6,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { Cpu, RefreshCw, Thermometer, Zap, Fan } from 'lucide-react';
 import { PageTopbar, KpiBand, api, useToast } from 'serverkit-sdk';
 import { EmptyState, Button } from './primitives.jsx';
+import { useTranslation } from 'serverkit-sdk';
 
 function clampPercent(value) {
     const n = Number(value);
@@ -27,6 +28,7 @@ function formatMib(value) {
 }
 
 const GpuCard = ({ gpu }) => {
+    const { t } = useTranslation();
     const util = clampPercent(gpu.utilization_gpu);
     const memPercent = clampPercent(
         gpu.memory_percent != null
@@ -47,7 +49,7 @@ const GpuCard = ({ gpu }) => {
             <div className="gpu-card__bars">
                 <div className="gpu-bar">
                     <div className="gpu-bar__head">
-                        <span className="gpu-bar__label">GPU Utilization</span>
+                        <span className="gpu-bar__label">{t('gpu.gpuMonitor.gpuUtilization', 'GPU Utilization')}</span>
                         <span className="gpu-bar__value">{util}%</span>
                     </div>
                     <div className="gpu-bar__track">
@@ -71,14 +73,14 @@ const GpuCard = ({ gpu }) => {
             <div className="gpu-stats">
                 <div className="gpu-stat">
                     <Thermometer size={14} />
-                    <span className="gpu-stat__label">Temp</span>
+                    <span className="gpu-stat__label">{t('gpu.gpuMonitor.temp', 'Temp')}</span>
                     <span className="gpu-stat__value">
                         {gpu.temperature != null ? `${gpu.temperature}°C` : '—'}
                     </span>
                 </div>
                 <div className="gpu-stat">
                     <Zap size={14} />
-                    <span className="gpu-stat__label">Power</span>
+                    <span className="gpu-stat__label">{t('gpu.gpuMonitor.power', 'Power')}</span>
                     <span className="gpu-stat__value">
                         {gpu.power_draw != null ? `${Math.round(gpu.power_draw)}W` : '—'}
                         {gpu.power_limit != null && (
@@ -88,14 +90,14 @@ const GpuCard = ({ gpu }) => {
                 </div>
                 <div className="gpu-stat">
                     <Fan size={14} />
-                    <span className="gpu-stat__label">Fan</span>
+                    <span className="gpu-stat__label">{t('gpu.gpuMonitor.fan', 'Fan')}</span>
                     <span className="gpu-stat__value">
                         {gpu.fan_speed != null ? `${gpu.fan_speed}%` : '—'}
                     </span>
                 </div>
                 <div className="gpu-stat">
                     <Cpu size={14} />
-                    <span className="gpu-stat__label">Driver</span>
+                    <span className="gpu-stat__label">{t('gpu.gpuMonitor.driver', 'Driver')}</span>
                     <span className="gpu-stat__value">{gpu.driver_version || '—'}</span>
                 </div>
             </div>
@@ -104,6 +106,7 @@ const GpuCard = ({ gpu }) => {
 };
 
 const GpuMonitor = () => {
+    const { t } = useTranslation();
     const toast = useToast();
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -115,7 +118,7 @@ const GpuMonitor = () => {
             const result = await api.getGpuInfo();
             setData(result);
         } catch (err) {
-            if (isRefresh) toast.error(err.message || 'Failed to load GPU info');
+            if (isRefresh) toast.error(err.message || t('gpu.gpuMonitor.failedToLoadGpuInfo', 'Failed to load GPU info'));
             console.error('Failed to load GPU info:', err);
         } finally {
             setLoading(false);
@@ -132,7 +135,7 @@ const GpuMonitor = () => {
         <div className="page-container gpu-page">
             <PageTopbar
                 icon={<Cpu size={18} />}
-                title="GPU Monitor"
+                title={t('gpu.gpuMonitor.gpuMonitor', 'GPU Monitor')}
                 meta={data?.available ? `${gpus.length} GPU${gpus.length !== 1 ? 's' : ''}` : undefined}
                 actions={
                     <Button variant="outline" size="sm" onClick={() => load(true)} disabled={refreshing}>
@@ -143,13 +146,13 @@ const GpuMonitor = () => {
             />
 
             {loading ? (
-                <EmptyState loading title="Loading GPU data" />
+                <EmptyState loading title={t('gpu.gpuMonitor.loadingGpuData', 'Loading GPU data')} />
             ) : !data?.available ? (
                 <EmptyState
                     icon={Cpu}
                     size="lg"
-                    title="No NVIDIA GPU detected"
-                    description="This host has no NVIDIA GPU, or the NVIDIA drivers / nvidia-smi are not available."
+                    title={t('gpu.gpuMonitor.noNvidiaGpuDetected', 'No NVIDIA GPU detected')}
+                    description={t('gpu.gpuMonitor.thisHostHasNoNvidiaGpu', 'This host has no NVIDIA GPU, or the NVIDIA drivers / nvidia-smi are not available.')}
                 />
             ) : (
                 <>
@@ -162,15 +165,15 @@ const GpuMonitor = () => {
 
                     <div className="gpu-procs">
                         <div className="gpu-procs__head">
-                            <h2>GPU Processes</h2>
+                            <h2>{t('gpu.gpuMonitor.gpuProcesses', 'GPU Processes')}</h2>
                             <span className="text-muted">{processes.length} running</span>
                         </div>
                         <table className="sk-dtable gpu-procs__table">
                             <thead>
                                 <tr>
                                     <th>PID</th>
-                                    <th>Process</th>
-                                    <th>Container</th>
+                                    <th>{t('gpu.gpuMonitor.process', 'Process')}</th>
+                                    <th>{t('gpu.gpuMonitor.container', 'Container')}</th>
                                     <th>VRAM</th>
                                 </tr>
                             </thead>
@@ -185,7 +188,7 @@ const GpuMonitor = () => {
                                 ))}
                                 {processes.length === 0 && (
                                     <tr>
-                                        <td colSpan={4} className="text-center text-muted">No active GPU processes</td>
+                                        <td colSpan={4} className="text-center text-muted">{t('gpu.gpuMonitor.noActiveGpuProcesses', 'No active GPU processes')}</td>
                                     </tr>
                                 )}
                             </tbody>
